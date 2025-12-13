@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import (
 )
 
 from core import settings
-from db.base import Base
+from api.db.base import Base
 
 
 class DatabaseHelper:
@@ -54,3 +54,4 @@ db_helper = DatabaseHelper(
     pool_size=settings.db.pool_size,
     max_overflow=settings.db.max_overflow,
 )
+
