@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from api.db import db_helper
+from core.db import db_helper
 from api.crud.user import TelegramUserCRUD
 from api.schemas.user import TelegramUserCreate
 

@@ -1,22 +1,36 @@
+from datetime import datetime
 from typing import List, TYPE_CHECKING
 
-from sqlalchemy import BigInteger, Boolean, String
+from sqlalchemy import BigInteger, Boolean, String, DateTime, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from api.db.base import Base
+from core.db.base import Base
 
 if TYPE_CHECKING:
     from api.models.role import Role
 
 
 class TelegramUser(Base):
-    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=False)
+    id: Mapped[int] = mapped_column(
+        BigInteger,
+        primary_key=True,
+        autoincrement=False,
+        index=True
+    )
     username: Mapped[str | None] = mapped_column(String(32), nullable=True)
     first_name: Mapped[str] = mapped_column(String(64))
     last_name: Mapped[str | None] = mapped_column(String(64), nullable=True)
     language_code: Mapped[str | None] = mapped_column(String(10), nullable=True)
     is_premium: Mapped[bool] = mapped_column(Boolean, default=False)
     is_bot: Mapped[bool] = mapped_column(Boolean, default=False)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, index=True)
+    last_activity_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=func.now(),
+        nullable=False,
+        index=True
+    )
 
     roles: Mapped[List["Role"]] = relationship(
         secondary="user_roles",
@@ -31,6 +45,13 @@ class TelegramUser(Base):
 
     def has_role(self, role_name: str) -> bool:
         return any(r.name == role_name for r in self.roles)
+
+    @property
+    def full_name(self) -> str:
+        """Повне ім'я користувача."""
+        if self.last_name:
+            return f"{self.first_name} {self.last_name}"
+        return self.first_name
 
     def __repr__(self) -> str:
         return f"<TelegramUser(id={self.id}, username={self.username}, is_premium={self.is_premium})>"

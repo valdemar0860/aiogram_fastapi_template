@@ -8,6 +8,11 @@ class RunningMode(str, Enum):
     WEBHOOK = "WEBHOOK"
 
 
+class SecretsConfig(BaseModel):
+    secret_key: str = ""
+    admin_password: str = ""
+
+
 class RunConfig(BaseModel):
     host: str = "0.0.0.0"
     port: int = 8000
@@ -41,6 +46,7 @@ class Settings(BaseSettings):
         env_prefix="APP_CONFIG__",
         extra="allow"
     )
+    secrets: SecretsConfig = SecretsConfig()
     run: RunConfig = RunConfig()
     db: DatabaseConfig = DatabaseConfig()
     telegram: TelegramConfig = TelegramConfig()

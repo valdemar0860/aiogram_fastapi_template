@@ -8,7 +8,8 @@ from sqladmin import Admin
 from admin.views import (
     TelegramUserAdmin, RoleAdmin, PermissionAdmin,
 )
-from api.db import db_helper
+# from admin import setup_admin
+from core.db import db_helper
 from bot.__main__ import start_bot, stop_bot
 from api.v1.endpoints.webhook import router as webhook_router
 from api.v1.endpoints.user import router as user_router
@@ -46,11 +47,12 @@ app = FastAPI(title="Backend API", version="1.0", lifespan=lifespan)
 app.include_router(webhook_router)
 app.include_router(user_router)
 
-admin = Admin(app, db_helper.engine, title="🛍️ Адмін-панель магазину")
+admin = Admin(app, db_helper.engine, title="🛍️ Адмін-панель шаблону")
 
 admin.add_view(TelegramUserAdmin)
 admin.add_view(RoleAdmin)
 admin.add_view(PermissionAdmin)
+# admin = setup_admin(app, db_helper.engine)
 
 
 async def main():

@@ -2,7 +2,7 @@ from sqlalchemy import String, Boolean, Table, Column, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import List, TYPE_CHECKING
 
-from api.db import Base
+from core.db.base import Base
 
 if TYPE_CHECKING:
     from api.models.user import TelegramUser

@@ -6,7 +6,7 @@ from sqlalchemy.orm import (
     DeclarativeBase, declared_attr, Mapped, mapped_column
 )
 
-from api.utils.camel_case_to_snake_case import camel_case_to_snake_case
+from core.utils.camel_case_to_snake_case import camel_case_to_snake_case
 
 
 class Base(DeclarativeBase):

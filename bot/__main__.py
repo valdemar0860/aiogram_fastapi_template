@@ -2,7 +2,7 @@ import asyncio
 
 from aiogram_dialog import setup_dialogs
 
-from api.utils.set_telegram_webhook import set_telegram_webhook, delete_telegram_webhook
+from bot.utils.telegram_webhook import set_telegram_webhook, delete_telegram_webhook
 from bot import dispatcher, bot
 from bot.handlers.messages import router as messages_router
 from core import settings, RunningMode, logger
